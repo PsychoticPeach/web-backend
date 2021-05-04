@@ -1,46 +1,21 @@
-const { response } = require("express");
-
 /**
  * @swagger
- * /person:
- *      get:
+ * /persons{id}:
+ *      delete:
  *          tags:
- *              - Person
- *          summary: Gets a list os persons
- *          description: Returns a list of persons
- *          produces:
- *              -application/json
- *          responses:
- *              200:
- *                  description: An array of persons
- *                  schema:
- *                  $ref: "#/definitons/Person"
- */
-app.get("/person", (request, response) => {
-
-})
-
-/**
- * @swagger
- * /person:
- *      post:
- *          tags:
- *              - Person
- *              summary: Creates and stores a person
+ *              - Persons
+ *              summary: Deletes a person
  *              description: Returns the id of the created person
  *              produces:
  *                  - application/json
  *              parameters:
  *                  - name: Model
- *                  description: Sample person
+ *                  description: Sample persons
  *                  in: body
  *                  required: true
  *                  schema:
- *                      $ref:"#/definitions/Person"
+ *                      $ref:"#/definitions/Persons"
  *              responses:
  *                  200:
- *                      description: Successfully created 
+ *                      description: Successfully deleted 
  */
-app.post("/person", (request, response) => {
-
-})
