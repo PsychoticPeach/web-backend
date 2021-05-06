@@ -8,6 +8,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const swaggerOptions = {
     swaggerDefinition: {
+        swagger: "2.0",
         info: {
             version: "1.0.0",
             title: "Ficha 7 API",
@@ -15,26 +16,26 @@ const swaggerOptions = {
             contact: {
                 name: "TPSI-DWB"
             },
-            servers:["http://localhost:3000"]
+            servers: ["http://localhost:3000"]
         },
         definitions: {
             "Persons": {
-                "type":"object",
-                "properties":{
+                "type": "object",
+                "properties": {
                     "id": {
-                        "type":"integer",
+                        "type": "integer",
                         "x-primary-key": true
                     },
                     "firstname": {
-                        "type":"string"
+                        "type": "string"
                     },
                     "lastname": {
-                        "type":"string"
+                        "type": "string"
                     },
                     "profession": {
                         "type": "string"
                     },
-                    "age":{
+                    "age": {
                         "type": "integer",
                         "format": "int64"
                     }
@@ -80,7 +81,7 @@ var dbConnection = mysql.createConnection({
  *              200:
  *                  description: An array of persons
  *                  schema:
- *                  $ref: "#/definitions/Persons"
+ *                      $ref: "#/definitions/Persons"
  */
 app.get("/persons", (request, response) => {
     dbConnection.query("select * from persons", (error, results, fields) => {
@@ -101,22 +102,21 @@ app.get("/persons", (request, response) => {
  *          summary: Creates and stores a person
  *          description: Returns the id of the created person
  *          produces:
- *              -application/json
+ *              - application/json
  *          parameters:
  *              - name: Model
  *                description: Sample person
- *                in: path
+ *                in: body
  *                required: true
  *                schema:
- *                $ref: "#/definitions/Persons"
+ *                  $ref: "#/definitions/Persons"
  *          responses:
  *              200:
  *                  description: Successfully created
-
  */
 app.post("/persons", (request, response) => {
     var details = request.body;
-    dbConnection.query("inser into persons set ?", [details], (error, results, fields) => {
+    dbConnection.query("insert into persons set ?", [details], (error, results, fields) => {
         if (error) {
             response.status(404);
             response.end(error.message);
@@ -125,6 +125,27 @@ app.post("/persons", (request, response) => {
     });
 });
 
+/**
+ * @swagger
+ * /persons:
+ *      delete:
+ *          tags:
+ *              - Persons
+ *          summary: Creates and stores a person
+ *          description: Returns the id of the deleted person
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Delete a person
+ *                in: body
+ *                required: true
+ *                schema:
+ *                  $ref: "#/definitions/Persons"
+ *          responses:
+ *              200:
+ *                  description: Successfully deleted
+ */
 app.delete("/persons", (request, response) => {
     var id = request.body.id;
     dbConnection.query("delete from persons where id =" + id, (error, results, fields) => {
@@ -136,6 +157,29 @@ app.delete("/persons", (request, response) => {
     });
 });
 
+
+/**
+ * @swagger
+ * /persons/{id}:
+ *      get:
+ *          tags:
+ *              - Persons
+ *          summary: Select a person by id
+ *          description: Returns a person by its id
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Fetch Person
+ *                in: path
+ *                required: true
+ *                type: string
+ *                schema:
+ *                  $ref: "#/definitions/Persons"
+ *          responses:
+ *              200:
+ *                  description: Successful operation
+ */
 app.get("/persons/:id", (request, response) => {
     var id = request.params.id;
 
@@ -155,6 +199,35 @@ app.get("/persons/:id", (request, response) => {
     });
 });
 
+/**
+ * @swagger
+ * /persons/{age}/{profession}:
+ *      get:
+ *          tags:
+ *              - Persons
+ *          summary: Select a person by age and profession
+ *          description: Returns a person by its age and profession
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: age
+ *                description: Insert age to fetch
+ *                in: path
+ *                required: true
+ *                type: string
+ *                schema:
+ *                  $ref: "#/definitions/Persons"
+ *              - name: profession
+ *                description: Insert profession to fetch
+ *                in: path
+ *                required: true
+ *                type: string
+ *                schema: 
+ *                  $ref: "#definitons/Persons"
+ *          responses:
+ *              200:
+ *                  description: Successful operation
+ */
 app.get("/persons/:age/:profession", (request, response) => {
     var age = request.params.age;
     var profession = request.params.profession;
@@ -175,6 +248,34 @@ app.get("/persons/:age/:profession", (request, response) => {
     });
 });
 
+/**
+ * @swagger
+ * /persons/{id}:
+ *      put:
+ *          tags:
+ *              - Persons
+ *          summary: Updates a person by id
+ *          description: Returns the person updated
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Insert id to update
+ *                in: path
+ *                required: true
+ *                type: string
+ *                schema:
+ *                  $ref: "#/definitions/Persons"
+ *              - name: Model
+ *                description: Sample person
+ *                in: body
+ *                required: true
+ *                schema:
+ *                  $ref: "#/definitions/Persons"
+ *          responses:
+ *              200:
+ *                  description: Successful operation
+ */
 app.put("/persons/:id", (request, response) => {
     var id = request.params.id;
     var details = request.body;
