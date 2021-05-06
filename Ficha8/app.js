@@ -131,7 +131,7 @@ app.post("/persons", (request, response) => {
  *      delete:
  *          tags:
  *              - Persons
- *          summary: Creates and stores a person
+ *          summary: Deletes a person
  *          description: Returns the id of the deleted person
  *          produces:
  *              - application/json
@@ -219,15 +219,11 @@ app.get("/persons/:id", (request, response) => {
  *                in: path
  *                required: true
  *                type: string
- *                schema:
- *                  $ref: "#/definitions/Persons"
  *              - name: profession
  *                description: Insert profession to fetch
  *                in: path
  *                required: true
  *                type: string
- *                schema: 
- *                  $ref: "#definitions/Persons"
  *          responses:
  *              200:
  *                  description: Successful operation
