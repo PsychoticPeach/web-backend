@@ -179,6 +179,10 @@ app.delete("/persons", (request, response) => {
  *          responses:
  *              200:
  *                  description: Successful operation
+ *              400:
+ *                  description: Unsuccessful request, try again
+ *              404:
+ *                  description: User not found
  */
 app.get("/persons/:id", (request, response) => {
     var id = request.params.id;
@@ -223,10 +227,14 @@ app.get("/persons/:id", (request, response) => {
  *                required: true
  *                type: string
  *                schema: 
- *                  $ref: "#definitons/Persons"
+ *                  $ref: "#definitions/Persons"
  *          responses:
  *              200:
  *                  description: Successful operation
+ *              400:
+ *                  description: Unsuccessful request, try again
+ *              404:
+ *                  description: User not found
  */
 app.get("/persons/:age/:profession", (request, response) => {
     var age = request.params.age;
@@ -275,6 +283,10 @@ app.get("/persons/:age/:profession", (request, response) => {
  *          responses:
  *              200:
  *                  description: Successful operation
+ *              400:
+ *                  description: Unsuccessful request, try again
+ *              404:
+ *                  description: User not found
  */
 app.put("/persons/:id", (request, response) => {
     var id = request.params.id;
