@@ -15,7 +15,6 @@ const port = 3000;
 //middleware function
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 var mysql = require("mysql");
