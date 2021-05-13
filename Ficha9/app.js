@@ -74,13 +74,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
-
 app.get("/persons", (request, response) => {
-    Person.findAll().then(person => {
-        console.log("All persons:", JSON.stringify(person, null, 4));
-        response.send(person)
+    var id = request.query.id
+    Person.findOne({
+        where: {
+            id: 1
+        }
+    }).then(person => {
+        console.log("All persons:", JSON.stringify(person, null, 4))
+        response.send(JSON.stringify(person, null, 4));
     });
 });
+
+// app.get("/persons", (request, response) => {
+//     Person.findAll().then(person => {
+//         console.log("All persons:", JSON.stringify(person, null, 4));
+//         response.send(person)
+//     });
+// });
 
 app.post("/persons", (request, response) => {
     var details = request.body;
@@ -113,6 +124,7 @@ app.delete("/persons/:id", (request, response) => {
         response.status(204).send()
     });
 });
+
 
 app.get("/persons/:id", (request, response) => {
     var id = request.params.id
