@@ -1,9 +1,9 @@
 {
     "swagger": "2.0",
-    "info":{
+    "info": {
         "version": "1.0.0",
-        "title": "Ficha 7 API",
-        "description": "Ficha 7 API Information",
+        "title": "Ficha 9 API",
+        "description": "Ficha 9 API Information",
         "contact": {
             "name": "TPSI-DWB"
         },
@@ -11,152 +11,150 @@
             "http://localhost:3000"
         ]
     },
-    "paths":{
-        "/persons":{
-            "get":{
-                "tags":[
-                    "Persons"
+    "paths": {
+        "/persons": {
+            "get": {
+                "tags": [
+                    "Person"
                 ],
-                "summary":"Gets a list of persons",
-                "description":"Returns a list of persons",
-                "produces":[
+                "summary": "Gets a list of persons",
+                "description": "Returns a list of persons",
+                "produces": [
                     "application/json"
                 ],
-                "responses":{
-                    "default":{
-                        "description":"successful operation"
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
                     }
                 }
             },
-            "post":{
-                "tags":[
-                    "Persons"
+            "post": {
+                "tags": [
+                    "Person"
                 ],
-                "summary":"Create person",
-                "description":"Returns the id of the created person.",
-                "produces":[
+                "summary": "Create person",
+                "description": "Returns the id of the created person.",
+                "produces": [
                     "application/xml",
                     "application/json"
                 ],
-                "parameters":[
-                    {
-                        "in":"body",
-                        "name":"body",
-                        "description": "Created person object",
-                        "required": true,
-                        "schema":{
-                            "$ref":"#/definitions/Persons"
-                        }
-                }
-            ],
-                "responses":{
-                    "default":{
-                        "description":"successful operation"
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "Created person object",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Person"
+                    }
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
                     }
                 }
             },
-            "delete":{
-                "tags":[
-                    "Persons"
+            "delete": {
+                "tags": [
+                    "Person"
                 ],
-                "summary":"Deletes a person",
-                "description":"Returns the id of the created person.",
-                "produces":[
+                "summary": "Deletes a person",
+                "description": "Returns the id of the created person.",
+                "produces": [
                     "application/json"
                 ],
-                "parameters":[{
-                    "in":"body",
-                    "name":"id",
+                "parameters": [{
+                    "in": "body",
+                    "name": "id",
                     "description": "Delete person",
                     "required": true
                 }],
-                "responses":{
-                    "default":{
-                        "description":"successful operation"
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
                     }
                 }
             }
         },
-        "/persons/{id}":{
-            "get":{
-                "tags":[
-                    "Persons"
+        "/persons/{id}": {
+            "get": {
+                "tags": [
+                    "Person"
                 ],
-                "summary":"Select a person by id",
-                "description":"Returns a person by id.",
-                "produces":[
+                "summary": "Select a person by id",
+                "description": "Returns a person by id.",
+                "produces": [
                     "application/json"
                 ],
-                "parameters":[{
-                    "in":"path",
-                    "name":"id",
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
                     "description": "Insert age to fetch",
                     "required": true,
-                    "type":"string"                  
+                    "type": "string"
                 }],
-                "responses":{
-                    "default":{
-                        "description":"successful operation"
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
                     }
                 }
             },
-            "put":{
-                "tags":[
-                    "Persons"
+            "put": {
+                "tags": [
+                    "Person"
                 ],
-                "summary":"Update person by id",
-                "description":"Returns the updated person.",
-                "produces":[
+                "summary": "Update person by id",
+                "description": "Returns the updated person.",
+                "produces": [
                     "application/json"
                 ],
-                "parameters":[{
-                    "in":"path",
-                    "name":"id",
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
                     "description": "Insert desired id",
                     "required": true,
-                    "type":"string"                  
-                },{
-                    "in":"body",
-                    "name":"body",
+                    "type": "string"
+                }, {
+                    "in": "body",
+                    "name": "body",
                     "description": "Sample person",
                     "required": true,
-                    "schema":{
-                        "$ref":"#/definitions/Persons"
-                    }  
+                    "schema": {
+                        "$ref": "#/definitions/Persons"
+                    }
                 }],
-                "responses":{
-                    "default":{
-                        "description":"successful operation"
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
                     }
                 }
             }
         },
-        "/persons/{age}/{profession}":{
-            "get":{
-                "tags":[
-                    "Persons"
+        "/persons/{age}/{profession}": {
+            "get": {
+                "tags": [
+                    "Person"
                 ],
-                "summary":"Select a person by age and profession",
-                "description":"Returns a person by age and profession.",
-                "produces":[
+                "summary": "Select a person by age and profession",
+                "description": "Returns a person by age and profession.",
+                "produces": [
                     "application/json"
                 ],
-                "parameters":[{
-                    "in":"path",
-                    "name":"age",
+                "parameters": [{
+                    "in": "path",
+                    "name": "age",
                     "description": "Insert age to fetch",
                     "required": true,
-                    "type":"string"                  
-                },{
-                    "in":"path",
-                    "name":"profession",
+                    "type": "string"
+                }, {
+                    "in": "path",
+                    "name": "profession",
                     "description": "Insert Profession to fetch",
                     "required": true,
-                    "type":"string"     
+                    "type": "string"
                 }],
-                "responses":{
-                    "default":{
-                        "description":"successful operation"
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
                     }
                 }
             }
@@ -164,10 +162,10 @@
     },
     "definitions": {
         "Persons": {
-            "type":"object",
+            "type": "object",
             "properties": {
-                "id":{
-                    "type":"integer",
+                "id": {
+                    "type": "integer",
                     "x-primary-key": true
                 },
                 "firstname": {
@@ -177,15 +175,15 @@
                     "type": "string"
                 },
                 "profession": {
-                    "type":"string"
+                    "type": "string"
                 },
                 "age": {
-                    "type":"integer",
+                    "type": "integer",
                     "format": "int64"
                 }
             },
-            "xml":{
-                "name":"Persons"
+            "xml": {
+                "name": "Persons"
             }
         }
     }

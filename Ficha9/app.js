@@ -91,7 +91,7 @@ app.delete("/persons", (request, response) => {
     var id = request.body.id;
     Person.destroy({
         where: {
-            id:id
+            id: id
         }
     }).then(() => {
         console.log("Done")
@@ -102,7 +102,7 @@ app.delete("/persons/:id", (request, response) => {
     var id = request.params.id;
     Person.destroy({
         where: {
-            id:id
+            id: id
         }
     }).then(() => {
         console.log("Done")
@@ -112,8 +112,8 @@ app.delete("/persons/:id", (request, response) => {
 app.get("/persons/:id", (request, response) => {
     var id = request.params.id
     Person.findOne({
-        where:{
-            id:id
+        where: {
+            id: id
         }
     }).then(person => {
         console.log("All persons:", JSON.stringify(person, null, 4));
@@ -124,11 +124,11 @@ app.get("/persons/:age/:profession", (request, response) => {
     var age = request.params.age;
     var profession = request.params.profession;
     Person.findOne({
-        where:{
-            age:age,
-            profession:profession
+        where: {
+            age: age,
+            profession: profession
         }
-    }).then(person => {
+    }).then((person) => {
         console.log("person:", JSON.stringify(person));
     });
 
@@ -136,14 +136,14 @@ app.get("/persons/:age/:profession", (request, response) => {
 
 app.put("/persons/:id", (request, response) => {
     var id = request.params.id;
-    var details = request.body;
+    var { firstName, lastName, profession, age } = request.body;
 
-    Person.update({firstName:details,lastName:details,profession:details,age:details},{
-        where:{
-            id:id
+    Person.update({ firstName, lastName, profession, age }, {
+        where: {
+            id: id
         }
-    }).then(()=>{
-        console.log("Done")
+    }).then((person) => {
+        console.log("person:", JSON.stringify(person));
     })
 });
 
