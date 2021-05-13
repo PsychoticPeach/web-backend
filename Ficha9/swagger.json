@@ -41,10 +41,10 @@
                 "parameters": [{
                     "in": "body",
                     "name": "body",
-                    "description": "Created person object",
+                    "description": "Sample person",
                     "required": true,
                     "schema": {
-                        "$ref": "#/definitions/Person"
+                        "$ref": "#/definitions/Persons"
                     }
                 }],
                 "responses": {
@@ -74,6 +74,7 @@
                     }
                 }
             }
+            
         },
         "/persons/{id}": {
             "get": {
@@ -91,6 +92,28 @@
                     "description": "Insert age to fetch",
                     "required": true,
                     "type": "string"
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete":{
+                "tags":[
+                    "Person"
+                ],
+                "summary":"Deletes a Person by id",
+                "description":"Returns the deleted person",
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[{
+                    "in":"path",
+                    "name":"id",
+                    "description":"Insert desired ID to delete",
+                    "required": true,
+                    "type":"string"
                 }],
                 "responses": {
                     "default": {
@@ -164,14 +187,10 @@
         "Persons": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer",
-                    "x-primary-key": true
-                },
-                "firstname": {
+                "firstName": {
                     "type": "string"
                 },
-                "lastname": {
+                "lastName": {
                     "type": "string"
                 },
                 "profession": {

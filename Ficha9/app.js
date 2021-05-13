@@ -78,12 +78,15 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get("/persons", (request, response) => {
     Person.findAll().then(person => {
         console.log("All persons:", JSON.stringify(person, null, 4));
+        response.send(person)
     });
 });
 
 app.post("/persons", (request, response) => {
-    Person.create({ firstName: "Jane", lastName: "Doe" }).then(jane => {
-        console.log("Jane's auto generated ID:", jane.id);
+    var details = request.body;
+    Person.create(details).then((person) => {
+        console.log("Auto generated ID:", person.id);
+        response.send(JSON.stringify(person.id));
     });
 });
 
@@ -93,8 +96,9 @@ app.delete("/persons", (request, response) => {
         where: {
             id: id
         }
-    }).then(() => {
+    }).then((person) => {
         console.log("Done")
+        response.status(204).send()
     });
 });
 
@@ -106,6 +110,7 @@ app.delete("/persons/:id", (request, response) => {
         }
     }).then(() => {
         console.log("Done")
+        response.status(204).send()
     });
 });
 
@@ -116,7 +121,8 @@ app.get("/persons/:id", (request, response) => {
             id: id
         }
     }).then(person => {
-        console.log("All persons:", JSON.stringify(person, null, 4));
+        console.log("All persons:", JSON.stringify(person, null, 4))
+        response.send(JSON.stringify(person, null, 4));
     });
 });
 
@@ -130,21 +136,24 @@ app.get("/persons/:age/:profession", (request, response) => {
         }
     }).then((person) => {
         console.log("person:", JSON.stringify(person));
+        response.send(JSON.stringify(person));
     });
 
 });
 
 app.put("/persons/:id", (request, response) => {
     var id = request.params.id;
-    var { firstName, lastName, profession, age } = request.body;
+    var details = request.body;
 
-    Person.update({ firstName, lastName, profession, age }, {
+    Person.update(details, {
         where: {
             id: id
         }
-    }).then((person) => {
-        console.log("person:", JSON.stringify(person));
+    }).then(() => {
+        console.log("Updated.","id:",id, details)
+        response.send(JSON.stringify(details));
     })
+
 });
 
 // método que arranca o servidor http e fica à escuta
