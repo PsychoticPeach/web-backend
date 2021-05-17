@@ -86,12 +86,12 @@ app.get("/persons", (request, response) => {
     });
 });
 
-// app.get("/persons", (request, response) => {
-//     Person.findAll().then(person => {
-//         console.log("All persons:", JSON.stringify(person, null, 4));
-//         response.send(person)
-//     });
-// });
+app.get("/persons", (request, response) => {
+    Person.findAll().then(person => {
+        console.log("All persons:", JSON.stringify(person, null, 4));
+        response.send(person)
+    });
+});
 
 app.post("/persons", (request, response) => {
     var details = request.body;
@@ -162,7 +162,7 @@ app.put("/persons/:id", (request, response) => {
             id: id
         }
     }).then(() => {
-        console.log("Updated.","id:",id, details)
+        console.log("Updated.", "id:", id, details)
         response.send(JSON.stringify(details));
     })
 
