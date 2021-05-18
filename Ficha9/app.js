@@ -78,7 +78,7 @@ app.get("/persons", (request, response) => {
     var id = request.query.id
     Person.findOne({
         where: {
-            id: 1
+            id: id
         }
     }).then(person => {
         console.log("All persons:", JSON.stringify(person, null, 4))

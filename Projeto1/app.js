@@ -7,6 +7,7 @@ const { fileURLToPath } = require('url');
 const mysql = require("mysql2");
 
 //Imortar sequelize
+const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("shop", "root", "", {
     dialect: "mysql"
@@ -52,13 +53,14 @@ const Product = sequelize.define("Product", {
     }
 });
 
+
 // Product.bulkCreate([
 //     { seller_id: 1, title: "Backpack", description: "Spacious and confortable to wear", price: 29, url: "", views: 31683, comments: { "Person3": "great backpack" } },
 //     { seller_id: 1, title: "Jacket", description: "Nice and warm", price: 37, url: "", views: 20948, comments: { "person": "Best Jacket" } },
 //     { seller_id: 1, title: "Chair", description: "Lumbar Support, Confortable", price: 127, url: "", views: 1790, comments: { "person5": "So nice and confy" } },
-//     { seller_id: 2, title: "Computer", description: "ChromeBook", price: 569, url: "", views: 9203, comments: { "Person2": "Love it!" }, tags: { "": "Technology" } },
-//     { seller_id: 2, title: "KeyBoard", description: "Razer Huntsman V2", price: 250, url: "", views: 7458, comments: { "Person6": "Can't wait to get mine!" }, tags: { "": "Technology" } },
-//     { seller_id: 2, title: "SmartBand", description: "Xiaomi miband 6", price: 40, url: "", views: 2042, comments: { "Person4": "Good price for a good band" }, tags: { "": "Technology" } },
+//     { seller_id: 2, title: "Computer", description: "ChromeBook", price: 569, url: "", views: 9203, comments: { "Person2": "Love it!" }, tags: ["tags", "Technology"] },
+//     { seller_id: 2, title: "KeyBoard", description: "Razer Huntsman V2", price: 250, url: "", views: 7458, comments: { "Person6": "Can't wait to get mine!" }, tags: {tags:["benfica", "Technology"]} },
+//     { seller_id: 2, title: "SmartBand", description: "Xiaomi miband 6", price: 40, url: "", views: 2042, comments: { "Person4": "Good price for a good band" }, tags: ["porto", "Technology"] },
 // ])
 
 
@@ -84,12 +86,11 @@ const port = 3000;
 
 //middleware function
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //PARTE A
-//Ex a.
-
+//Ex a. FEITO
 // app.get("/product", (req, res) => {
 //     Product.findAll().then(product => {
 //         console.log("All Products:", JSON.stringify(product));
@@ -98,63 +99,68 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // });
 
 
-//Ex b.
-/*app.post("/product", (req, res) => {
-    var details = req.body;
-    Product.create(details).then((product) => {
-        console.log("Auto generated ID:", product.id);
-        res.send(JSON.stringify(product.id));
-    });
-});*/
+//Ex b. FEITO
+// app.post("/product", (req, res) => {
+//     var details = req.body;
+//     Product.create(details).then((product) => {
+//         console.log("Auto generated ID:", product.id);
+//         res.send(JSON.stringify(product.id));
+//     });
+// });
 
 
-//Ex c.
-/*app.get("/product", (req, res) => {
+//Ex c. FEITO
+app.get("/seller", (req, res) => {
     var id = req.query.seller_id
     Product.findAll({
         where: {
-            seller_id: id
+            id: id
         }
     }).then(product => {
         console.log("Products from ID:", JSON.stringify(product, null, 4))
         res.send(JSON.stringify(product, null, 4));
     });
-});*/
+});
 
 
-//Ex d.
-/*app.put("/product/:id", (req, res) => {
-    var id = req.params.id;
-    Product.update( ? ? ? ? , {
+//Ex d. FEITO
+app.put("/product/:id/incrementViews", (req, res) => {
+    Product.findOne({
         where: {
-            id: id
+            id: req.params.id
         }
-    }).then(() => {
-        console.log("Updated.", "id:", id, Product.views);
-        res.send(JSON.stringify());
     })
-});*/
-
-
-//Ex e.
-/*app.get("/product", (req, res) => {
-    var tag = req.query.tags
-    Product.findAll({
-        where: {
-            tags: tag
-        }
-    }).then(product => {
-        console.log("Products with same tags:", JSON.stringify(product, null, 4))
-        res.send(JSON.stringify(product, null, 4));
+    .then(product => {
+        product.increment("views");
+        product.reload();        
+        res.send({"views": product.views});
+    }).catch(error =>{
+        res.send({"error": error});
     });
-});*/
+});
+
+
+//Ex e. COMO PESQUISAR POR TAGS  http://localhost:3000/product/tags?tags[]=Technology
+app.get("/product/tags", (req, res) => {
+    var tagsArray = req.query.tags;
+    Product.findAll({}).then(products => {
+        for (let i = 0; i < tagsArray.length; i++) {
+            console.log(products[i]);
+        }
+        console.log("Products with same tags:", product);
+        var tags = JSON.parse(product.tags);
+        res.send(product);
+    }).catch(error =>{
+        res.send({"error": error});
+    });
+});
 
 
 //PARTE B
-//Ex a.
-/*app.get("/product", (req, res) => {
+//Ex a. FEITO
+app.get("/product/id", (req, res) => {
     var id = req.query.id
-    Product.findAll({
+    Product.findOne({
         where: {
             id: id
         }
@@ -162,66 +168,67 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         console.log("All Products:", JSON.stringify(product));
         res.send(product);
     });
-});*/
+});
 
 
-//Ex b.
-// app.delete("/product/:title", (req, res) => {
-//     var title = req.params.title;
-//     Product.destroy({
-//         where: {
-//             title: title
-//         }
-//     }).then(() => {
-//         console.log("Deleted.");
-//         res.send("Deleted.");
-//     })
-// });
+//Ex b. FEITO INCLUINDO ERROS
+app.delete("/product/:title", (req, res) => {
+    var title = req.params.title;
+    Product.findOne({
+        where: {
+            title: title
+        }
+    }).then((product) => {
+        product.destroy(product);
+        console.log("200", product);
+        res.send("200", product);
+    }).catch(error =>{
+        res.status(404);
+        res.end(error.message);
+    });
+});
 
-//Ex c.
-// app.put("/product/:id", (req, res) => {
-//     var id = req.params.id;
-//     var url = req.body;
-
-//     Product.update(url, {
-//         where: {
-//             id: id
-//         }
-//     }).then(() => {
-//         console.log("Updated.", "id:", id, url)
-//         res.send(JSON.stringify(url));
-//     })
-// });
-
-
-//Ex d.
-// app.put("/product/:id", (req, res) => {
-//     var id = req.query.id;
-//     var details = req.body.comments;
-
-//     Product.update(details, {
-//         where: {
-//             id: id
-//         }
-//     }).then(() => {
-//         console.log("Updated.", "id:", id, details)
-//         res.send(JSON.stringify(details));
-//     })
-
-// });
+//Ex c. DONE
+app.put("/product/:id/images", (req, res) => {
+    var imagem = req.body;
+    Product.update(imagem,{
+        where: {
+            id: req.params.id
+        }
+    }).then(() => {
+        console.log(imagem)
+        res.send(imagem);
+    }).catch(error =>{
+        res.send({"error": error});
+    });
+});
 
 
-//Ex e.
-// app.get("/product", (req, res) => {
-//     Product.findAll({
-//         order: [sequelize.fn('max', sequelize.col('views')), 'DESC']
-//     }).then(product => {
-//         console.log("All Products:", JSON.stringify(product));
-//         res.send(product);
-//     });
-// });
+// Ex d. DONE
+app.put("/product/:id/comments", (req, res) => {
+    var comment = req.body;
+    Product.update(comment, {
+        where: {
+            id: req.params.id
+        }
+    }).then((comment) => {
+        console.log("Updated.", "id:", id, comment)
+        res.send(JSON.stringify(comment));
+    }).catch(error =>{
+        res.send({"error": error});
+    });
+});
 
 
+//Ex e. DONE
+app.get("/product/views", (req, res) => {
+    Product.findAll({
+        order: [["views", "DESC"]]
+    }).then(product => {
+        console.log("All Products:", JSON.stringify(product));
+        res.send(product);
+    });
+});
 
 // método que arranca o servidor http e fica à escuta
 app.listen(port, () => {
