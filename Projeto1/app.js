@@ -56,9 +56,9 @@ const Product = sequelize.define("Product", {
 //     { seller_id: 1, title: "Backpack", description: "Spacious and confortable to wear", price: 29, url: "", views: 31683, comments: { "Person3": "great backpack" } },
 //     { seller_id: 1, title: "Jacket", description: "Nice and warm", price: 37, url: "", views: 20948, comments: { "person": "Best Jacket" } },
 //     { seller_id: 1, title: "Chair", description: "Lumbar Support, Confortable", price: 127, url: "", views: 1790, comments: { "person5": "So nice and confy" } },
-//     { seller_id: 2, title: "Computer", description: "ChromeBook", price: 569, url: "", views: 9203, comments: { "Person2": "Love it!" } },
-//     { seller_id: 2, title: "KeyBoard", description: "Razer Huntsman V2", price: 250, url: "", views: 7458, comments: { "Person6": "Can't wait to get mine!" } },
-//     { seller_id: 2, title: "SmartBand", description: "Xiaomi miband 6", price: 40, url: "", views: 2042, comments: { "Person4": "Good price for a good band" } },
+//     { seller_id: 2, title: "Computer", description: "ChromeBook", price: 569, url: "", views: 9203, comments: { "Person2": "Love it!" }, tags: { "": "Technology" } },
+//     { seller_id: 2, title: "KeyBoard", description: "Razer Huntsman V2", price: 250, url: "", views: 7458, comments: { "Person6": "Can't wait to get mine!" }, tags: { "": "Technology" } },
+//     { seller_id: 2, title: "SmartBand", description: "Xiaomi miband 6", price: 40, url: "", views: 2042, comments: { "Person4": "Good price for a good band" }, tags: { "": "Technology" } },
 // ])
 
 
@@ -87,6 +87,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+//PARTE A
+//Ex a.
+
 // app.get("/product", (req, res) => {
 //     Product.findAll().then(product => {
 //         console.log("All Products:", JSON.stringify(product));
@@ -94,29 +97,35 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //     });
 // });
 
-app.post("/product", (req, res) => {
+
+//Ex b.
+/*app.post("/product", (req, res) => {
     var details = req.body;
     Product.create(details).then((product) => {
         console.log("Auto generated ID:", product.id);
         res.send(JSON.stringify(product.id));
     });
-});
+});*/
 
-app.get("/product", (req, res) => {
-    var seller_id = req.query.seller_id;
+
+//Ex c.
+/*app.get("/product", (req, res) => {
+    var id = req.query.seller_id
     Product.findAll({
         where: {
-            seller_id: seller_id
+            seller_id: id
         }
     }).then(product => {
-        console.log("All products:", JSON.stringify(product, null, 4))
+        console.log("Products from ID:", JSON.stringify(product, null, 4))
         res.send(JSON.stringify(product, null, 4));
     });
-});
+});*/
 
-app.put("/product/:id", (req, res) => {
+
+//Ex d.
+/*app.put("/product/:id", (req, res) => {
     var id = req.params.id;
-    Product.update(Product.views++, {
+    Product.update( ? ? ? ? , {
         where: {
             id: id
         }
@@ -124,8 +133,107 @@ app.put("/product/:id", (req, res) => {
         console.log("Updated.", "id:", id, Product.views);
         res.send(JSON.stringify());
     })
+});*/
 
+
+//Ex e.
+/*app.get("/product", (req, res) => {
+    var tag = req.query.tags
+    Product.findAll({
+        where: {
+            tags: tag
+        }
+    }).then(product => {
+        console.log("Products with same tags:", JSON.stringify(product, null, 4))
+        res.send(JSON.stringify(product, null, 4));
+    });
+});*/
+
+
+//PARTE B
+//Ex a.
+/*app.get("/product", (req, res) => {
+    var id = req.query.id
+    Product.findAll({
+        where: {
+            id: id
+        }
+    }).then(product => {
+        console.log("All Products:", JSON.stringify(product));
+        res.send(product);
+    });
+});*/
+
+
+//Ex b.
+// app.delete("/product/:title", (req, res) => {
+//     var title = req.params.title;
+//     Product.destroy({
+//         where: {
+//             title: title
+//         }
+//     }).then(() => {
+//         console.log("Deleted.");
+//         res.send("Deleted.");
+//     })
+// });
+
+//Ex c.
+// app.put("/product/:id", (req, res) => {
+//     var id = req.params.id;
+//     var url = req.body;
+
+//     Product.update(url, {
+//         where: {
+//             id: id
+//         }
+//     }).then(() => {
+//         console.log("Updated.", "id:", id, url)
+//         res.send(JSON.stringify(url));
+//     })
+// });
+
+
+//Ex d.
+// app.put("/product/:id", (req, res) => {
+//     var id = req.query.id;
+//     var details = req.body.comments;
+
+//     Product.update(details, {
+//         where: {
+//             id: id
+//         }
+//     }).then(() => {
+//         console.log("Updated.", "id:", id, details)
+//         res.send(JSON.stringify(details));
+//     })
+
+// });
+
+
+//Ex e.
+
+app.get("/product", (req, res) => {
+    Product.findAll({
+        order: [sequelize.fn('max', sequelize.col('views')), 'DESC']
+    }).then(product => {
+        console.log("All Products:", JSON.stringify(product));
+        res.send(product);
+    });
 });
+
+
+// app.get("/product", (req, res) => {
+//     // var id = req.query.id
+//     Product.findAll({
+//         order: [
+//             sequelize.fn("max", sequelize.col("views"), "DESC")
+//         ]
+//     }).then(products => {
+//         console.log("All Products:", JSON.stringify(products));
+//         res.send(products);
+//     });
+// });
 
 // método que arranca o servidor http e fica à escuta
 app.listen(port, () => {

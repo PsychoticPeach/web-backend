@@ -165,7 +165,6 @@ app.put("/persons/:id", (request, response) => {
         console.log("Updated.", "id:", id, details)
         response.send(JSON.stringify(details));
     })
-
 });
 
 // método que arranca o servidor http e fica à escuta
