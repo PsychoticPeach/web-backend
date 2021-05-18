@@ -212,28 +212,16 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 //Ex e.
-
-app.get("/product", (req, res) => {
-    Product.findAll({
-        order: [sequelize.fn('max', sequelize.col('views')), 'DESC']
-    }).then(product => {
-        console.log("All Products:", JSON.stringify(product));
-        res.send(product);
-    });
-});
-
-
 // app.get("/product", (req, res) => {
-//     // var id = req.query.id
 //     Product.findAll({
-//         order: [
-//             sequelize.fn("max", sequelize.col("views"), "DESC")
-//         ]
-//     }).then(products => {
-//         console.log("All Products:", JSON.stringify(products));
-//         res.send(products);
+//         order: [sequelize.fn('max', sequelize.col('views')), 'DESC']
+//     }).then(product => {
+//         console.log("All Products:", JSON.stringify(product));
+//         res.send(product);
 //     });
 // });
+
+
 
 // método que arranca o servidor http e fica à escuta
 app.listen(port, () => {
