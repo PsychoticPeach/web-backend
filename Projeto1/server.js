@@ -7,6 +7,7 @@ const { fileURLToPath } = require('url');
 const mysql = require("mysql2");
 
 //Imortar sequelize
+const { QueryTypes } = require('sequelize');
 const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize("shop", "root", "", {
@@ -67,12 +68,7 @@ const Product = sequelize.define("Product", {
 sequelize.sync({ force: false })
     .then(() => {
         console.log("Database & tables created!");
-    }) //.then(() => {
-    //     return Person.findAll();
-    // }).then((person) => {
-    //     console.log(person);
-    // });
-
+    })
 
 //Importar o swagger
 const swaggerUi = require("swagger-ui-express");
@@ -172,42 +168,26 @@ app.put("/product/:id/incrementViews", (req, res) => {
 });
 
 
-//Ex e. POR FAZER  http://localhost:3000/product/tags?tags[]=Technology FALTA ERROS
+//Ex e. Só funciona com 1 tag FALTA ERROS
 app.get("/product/tags", (req, res) => {
     var tagsArray = req.query.tags;
     for (let i = 0; i < tagsArray.length; i++) {
-        console.log(tagsArray, tagsArray[i]);
-        if (tagsArray[i] == "Technology") {
-            Product.findAll({
-                where:{
-                    tags:tagsArray[i]
-                }
-            }).then(product=>{
-                for (let i = 0; i < tagsArray,length; i++) {
-                    console.log(product) 
-                }
-                console.log(product)
-                res.send(product)
-                console.log("Estas aqui")
+        sequelize.query("SELECT * FROM `products` WHERE `products`.`tags`=?", {
+                replacements: [tagsArray[i]],
+                type: QueryTypes.SELECT
             })
-            console.log("Estas aqui")
-        } else {
-            
-            
-        }
+            .then((product) => {
+                if (product) {
+                    console.log("Product with tag:", tagsArray[i])
+                    console.log(product)
+                    res.status(200).send(product)
+                } else {
+                    res.status(404).send("Not Found!")
+                }
+            }).catch(error => {
+                res.send({ "error": error });
+            })
     }
-    Product.findAll().then(products => {
-        var prod = products.tags
-        for (let x = 0; x <prod.tags.length; x++) {
-            console.log(prod.tags[x]);
-            
-        }
-        // console.log("Products with same tags:", products);
-        // var tags = JSON.parse(products.tags);
-        // res.send(products);
-    }).catch(error => {
-        res.send({ "error": error });
-    });
 });
 
 
@@ -245,53 +225,70 @@ app.delete("/product/:title", (req, res) => {
         product.destroy(product);
         console.log("200", product);
         res.send("200", product);
+
     }).catch(error => {
         res.status(404);
         res.end(error.message);
     });
 });
 
-//Ex c. DONE
+//Ex c. DONE INCLUINDO ERROS
 app.put("/product/:id/images", (req, res) => {
     var imagem = req.body;
     Product.update(imagem, {
         where: {
             id: req.params.id
         }
-    }).then(() => {
-        console.log(imagem)
-        res.send(imagem);
+    }).then((product) => {
+        if (product == 0) {
+            console.log("Not Found!")
+            res.status(404).send({ "ID Not Found:": req.params.id });
+        } else {
+            console.log(product);
+            res.send(imagem);
+        }
     }).catch(error => {
         res.send({ "error": error });
     });
 });
 
 
-// Ex d. DONE
+// Ex d. DONE INCLUINDO ERROS
 app.put("/product/:id/comments", (req, res) => {
     var comment = req.body;
     Product.update(comment, {
         where: {
             id: req.params.id
         }
-    }).then((comment) => {
-        console.log(comment)
-        res.send(comment);
+    }).then((comments) => {
+        if (comments == 0) {
+            console.log("Not Found!")
+            res.status(404).send({ "ID Not Found:": req.params.id });
+        } else {
+            console.log(comments)
+            res.send(comments);
+        }
     }).catch(error => {
         res.send({ "error": error });
     });
 });
 
 
-//Ex e. DONE
+//Ex e. DONE INCLUINDO ERROS
 app.get("/product/views", (req, res) => {
     Product.findAll({
         order: [
             ["views", "DESC"]
         ]
     }).then(product => {
-        console.log("All Products:", JSON.stringify(product));
+        if (product == 0) {
+            console.log("Not Found!")
+            res.status(404).send("No products Found!");
+        }
+        console.log("All Products:", product);
         res.send(product);
+    }).catch(error => {
+        res.send({ "error": error });
     });
 });
 
