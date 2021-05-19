@@ -175,19 +175,33 @@ app.put("/product/:id/incrementViews", (req, res) => {
 //Ex e. POR FAZER  http://localhost:3000/product/tags?tags[]=Technology FALTA ERROS
 app.get("/product/tags", (req, res) => {
     var tagsArray = req.query.tags;
-
-    Product.findAll({}).then(products => {
-        for (let i = 0; i < tagsArray.length; i++) {
-            console.log(tagsArray, tagsArray[i]);
-            if (tagsArray[i] == products.tags) {
+    for (let i = 0; i < tagsArray.length; i++) {
+        console.log(tagsArray, tagsArray[i]);
+        if (tagsArray[i] == "Technology") {
+            Product.findAll({
+                where:{
+                    tags:tagsArray[i]
+                }
+            }).then(product=>{
+                for (let i = 0; i < tagsArray,length; i++) {
+                    console.log(product) 
+                }
+                console.log(product)
+                res.send(product)
                 console.log("Estas aqui")
-
-            } else {
-                console.log("Estas aqui no else")
-
-            }
+            })
+            console.log("Estas aqui")
+        } else {
+            
+            
         }
-
+    }
+    Product.findAll().then(products => {
+        var prod = products.tags
+        for (let x = 0; x <prod.tags.length; x++) {
+            console.log(prod.tags[x]);
+            
+        }
         // console.log("Products with same tags:", products);
         // var tags = JSON.parse(products.tags);
         // res.send(products);
