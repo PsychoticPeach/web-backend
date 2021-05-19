@@ -2,8 +2,8 @@
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
-        "title": "Ficha 9 API",
-        "description": "Ficha 9 API Information",
+        "title": "Project API",
+        "description": "Project API Information",
         "contact": {
             "name": "TPSI-DWB"
         },
@@ -12,121 +12,30 @@
         ]
     },
     "paths": {
-        "/persons": {
+        "/product/views": {
             "get": {
                 "tags": [
-                    "Person"
+                    "Product"
                 ],
-                "summary": "Gets a list of persons",
-                "description": "Returns a list of persons",
+                "summary": "Sort products by Views",
+                "description": "Returns the products by most viewed to least viewed",
                 "produces": [
                     "application/json"
                 ],
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Person"
-                ],
-                "summary": "Create person",
-                "description": "Returns the id of the created person.",
-                "produces": [
-                    "application/xml",
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "body",
-                    "name": "body",
-                    "description": "Sample person",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/Persons"
-                    }
-                }],
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Person"
-                ],
-                "summary": "Deletes a person",
-                "description": "Returns the id of the created person.",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "body",
-                    "name": "id",
-                    "description": "Delete person",
-                    "required": true
-                }],
                 "responses": {
                     "default": {
                         "description": "successful operation"
                     }
                 }
             }
-            
         },
-        "/persons/{id}": {
-            "get": {
-                "tags": [
-                    "Person"
-                ],
-                "summary": "Select a person by id",
-                "description": "Returns a person by id.",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "path",
-                    "name": "id",
-                    "description": "Insert age to fetch",
-                    "required": true,
-                    "type": "string"
-                }],
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "delete":{
-                "tags":[
-                    "Person"
-                ],
-                "summary":"Deletes a Person by id",
-                "description":"Returns the deleted person",
-                "produces":[
-                    "application/json"
-                ],
-                "parameters":[{
-                    "in":"path",
-                    "name":"id",
-                    "description":"Insert desired ID to delete",
-                    "required": true,
-                    "type":"string"
-                }],
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
+        "/product/{id}/comments": {
             "put": {
                 "tags": [
-                    "Person"
+                    "Product"
                 ],
-                "summary": "Update person by id",
-                "description": "Returns the updated person.",
+                "summary": "Update products Image paths by ID",
+                "description": "Returns the updated paths.",
                 "produces": [
                     "application/json"
                 ],
@@ -142,7 +51,7 @@
                     "description": "Sample person",
                     "required": true,
                     "schema": {
-                        "$ref": "#/definitions/Persons"
+                        "$ref": "#/definitions/Comments"
                     }
                 }],
                 "responses": {
@@ -152,28 +61,188 @@
                 }
             }
         },
-        "/persons/{age}/{profession}": {
-            "get": {
+        "/product/{id}/images": {
+            "put": {
                 "tags": [
-                    "Person"
+                    "Product"
                 ],
-                "summary": "Select a person by age and profession",
-                "description": "Returns a person by age and profession.",
+                "summary": "Update products Image paths by ID",
+                "description": "Returns the updated paths.",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [{
                     "in": "path",
-                    "name": "age",
-                    "description": "Insert age to fetch",
+                    "name": "id",
+                    "description": "Insert desired id",
                     "required": true,
                     "type": "string"
                 }, {
+                    "in": "body",
+                    "name": "body",
+                    "description": "Sample person",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Images"
+                    }
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/product/id": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Gets a product by ID",
+                "description": "Returns the product from ID",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "query",
+                    "name": "id",
+                    "description": "gets the product from query ID",
+                    "required": true
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/product/tags": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Gets a list of products with the same tag",
+                "description": "Returns a list of products with the same tag",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "query",
+                    "name": "tags",
+                    "description": "gets products with same tag",
+                    "required": true
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/product/{id}/incrementViews": {
+            "put": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Increments Views",
+                "description": "Returns Incremented result of Views.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
                     "in": "path",
-                    "name": "profession",
-                    "description": "Insert Profession to fetch",
+                    "name": "id",
+                    "description": "Insert desired id",
                     "required": true,
                     "type": "string"
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/seller": {
+            "get": {
+                "tags": [
+                    "Seller"
+                ],
+                "summary": "Gets a list of products by seller",
+                "description": "Returns a list of products by seller",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "query",
+                    "name": "seller_id",
+                    "description": "gets products from seller",
+                    "required": true
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/product/{title}": {
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Deletes a Product",
+                "description": "Returns the id of the created product.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "title",
+                    "description": "Delete product",
+                    "required": true
+                }],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/product": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Gets a list of products",
+                "description": "Returns a list of products",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Creates product",
+                "description": "Returns the id of the created product.",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "Sample product",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Product"
+                    }
                 }],
                 "responses": {
                     "default": {
@@ -184,25 +253,55 @@
         }
     },
     "definitions": {
-        "Persons": {
+        "Comments": {
+            "type": "string",
+            "properties": {
+                "comments": {
+                    "type": "string"
+                }
+            }
+        },
+        "Images": {
+            "type": "string",
+            "properties": {
+                "images": {
+                    "type": "string"
+                }
+            }
+        },
+        "Product": {
             "type": "object",
             "properties": {
-                "firstName": {
+                "seller_id": {
+                    "type": "integer"
+                },
+                "title": {
                     "type": "string"
                 },
-                "lastName": {
+                "description": {
                     "type": "string"
                 },
-                "profession": {
+                "price": {
+                    "type": "integer"
+                },
+                "url": {
                     "type": "string"
                 },
-                "age": {
-                    "type": "integer",
-                    "format": "int64"
+                "views": {
+                    "type": "integer"
+                },
+                "images": {
+                    "type": "string"
+                },
+                "comments": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
                 }
             },
             "xml": {
-                "name": "Persons"
+                "name": "Product"
             }
         }
     }
