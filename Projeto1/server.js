@@ -55,6 +55,7 @@ const Product = sequelize.define("Product", {
 });
 
 
+<<<<<<< HEAD
 // Product.bulkCreate([
 //     { seller_id: 1, title: "Backpack", description: "Spacious and confortable to wear", price: 29, url: "", views: 31683, comments: { "Person3": "great backpack" } },
 //     { seller_id: 1, title: "Jacket", description: "Nice and warm", price: 37, url: "", views: 20948, comments: { "person": "Best Jacket" } },
@@ -63,6 +64,16 @@ const Product = sequelize.define("Product", {
 //     { seller_id: 2, title: "KeyBoard", description: "Razer Huntsman V2", price: 250, url: "", views: 7458, comments: { "Person6": "Can't wait to get mine!" }, tags: { tags: ["benfica", "Technology"] } },
 //     { seller_id: 2, title: "SmartBand", description: "Xiaomi miband 6", price: 40, url: "", views: 2042, comments: { "Person4": "Good price for a good band" }, tags: "Technology" },
 // ])
+=======
+/*Product.bulkCreate([
+    { seller_id: 1, title: "Backpack", description: "Spacious and confortable to wear", price: 29, url: "", views: 31683, comments: { "Person3": "great backpack" } },
+    { seller_id: 1, title: "Jacket", description: "Nice and warm", price: 37, url: "", views: 20948, comments: { "person": "Best Jacket" } },
+    { seller_id: 1, title: "Chair", description: "Lumbar Support, Confortable", price: 127, url: "", views: 1790, comments: { "person5": "So nice and confy" } },
+    { seller_id: 2, title: "Computer", description: "ChromeBook", price: 569, url: "", views: 9203, comments: { "Person2": "Love it!" }, tags:"Technology" },
+    { seller_id: 2, title: "KeyBoard", description: "Razer Huntsman V2", price: 250, url: "", views: 7458, comments: { "Person6": "Can't wait to get mine!" }, tags: { tags: ["benfica", "Technology"] } },
+    { seller_id: 2, title: "SmartBand", description: "Xiaomi miband 6", price: 40, url: "", views: 2042, comments: { "Person4": "Good price for a good band" }, tags: "Technology"},
+])*/
+>>>>>>> 01f92be7795e14ff6a9c5d2be55261ccf0fe130a
 
 
 sequelize.sync({ force: false })
@@ -86,7 +97,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/project-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //PARTE A
-//Ex a. FEITO INCLUINDO ERROS
+//Ex a. FEITO 
 app.get("/product", (req, res) => {
     Product.findAll().then(product => {
         if (product.length == 0) {
@@ -103,7 +114,7 @@ app.get("/product", (req, res) => {
 });
 
 
-//Ex b. FEITO INCLUINDO ERROS
+//Ex b. FEITO 
 app.post("/product", (req, res) => {
     var details = req.body;
     Product.create(details).then((product) => {
@@ -112,7 +123,7 @@ app.post("/product", (req, res) => {
             res.end("ID not found!")
         } else {
             console.log("Auto generated ID:", product.id);
-            res.sendStatus(200);
+            res.status(200).send({"Auto generated ID:":product.id});
         }
     }).catch(error => {
         res.send({ "error": error });
@@ -121,7 +132,7 @@ app.post("/product", (req, res) => {
 });
 
 
-//Ex c. FEITO INCLUINDO ERROS
+//Ex c. FEITO 
 app.get("/seller", (req, res) => {
     Product.findAll({
         where: {
@@ -146,7 +157,7 @@ app.get("/seller", (req, res) => {
 });
 
 
-//Ex d. FEITO INCLUINDO ERROS
+//Ex d. FEITO
 app.put("/product/:id/incrementViews", (req, res) => {
     Product.findOne({
         where: {
@@ -168,7 +179,7 @@ app.put("/product/:id/incrementViews", (req, res) => {
 });
 
 
-//Ex e. Só funciona com 1 tag FALTA ERROS
+//Ex e. Só funciona com 1 tag 
 app.get("/product/tags", (req, res) => {
     var tagsArray = req.query.tags;
     for (let i = 0; i < tagsArray.length; i++) {
@@ -180,7 +191,7 @@ app.get("/product/tags", (req, res) => {
                 if (product) {
                     console.log("Product with tag:", tagsArray[i])
                     console.log(product)
-                    res.status(200).send(product)
+                    res.status(200).send({"All products with same tags:":product})
                 } else {
                     res.status(404).send("Not Found!")
                 }
@@ -192,7 +203,7 @@ app.get("/product/tags", (req, res) => {
 
 
 //PARTE B
-//Ex a. FEITO INCLUINDO ERROS
+//Ex a. FEITO
 app.get("/product/id", (req, res) => {
     var id = req.query.id
     Product.findOne({
@@ -214,7 +225,7 @@ app.get("/product/id", (req, res) => {
 });
 
 
-//Ex b. FEITO INCLUINDO ERROS
+//Ex b. FEITO 
 app.delete("/product/:title", (req, res) => {
     var title = req.params.title;
     Product.findOne({
@@ -232,7 +243,7 @@ app.delete("/product/:title", (req, res) => {
     });
 });
 
-//Ex c. DONE INCLUINDO ERROS
+//Ex c. DONE
 app.put("/product/:id/images", (req, res) => {
     var imagem = req.body;
     Product.update(imagem, {
@@ -253,7 +264,7 @@ app.put("/product/:id/images", (req, res) => {
 });
 
 
-// Ex d. DONE INCLUINDO ERROS
+// Ex d. DONE 
 app.put("/product/:id/comments", (req, res) => {
     var comment = req.body;
     Product.update(comment, {
@@ -274,7 +285,7 @@ app.put("/product/:id/comments", (req, res) => {
 });
 
 
-//Ex e. DONE INCLUINDO ERROS
+//Ex e. DONE 
 app.get("/product/views", (req, res) => {
     Product.findAll({
         order: [
