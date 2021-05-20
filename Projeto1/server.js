@@ -183,7 +183,7 @@ app.put("/product/:id/incrementViews", (req, res) => {
 app.get("/product/tags", (req, res) => {
     var tagsArray = req.query.tags;
     for (let i = 0; i < tagsArray.length; i++) {
-        sequelize.query("SELECT * FROM `products` WHERE `products`.`tags`=?", {
+        sequelize.query('SELECT * FROM `products` WHERE `products`.`tags`=?', {
                 replacements: [tagsArray[i]],
                 type: QueryTypes.SELECT
             })
@@ -253,7 +253,7 @@ app.put("/product/:id/images", (req, res) => {
     }).then((product) => {
         if (product == 0) {
             console.log("Not Found!")
-            res.status(404).send({ "ID Not Found:": req.params.id });
+            res.status(404).send("Body is empty");
         } else {
             console.log(product);
             res.send(imagem);
@@ -276,8 +276,8 @@ app.put("/product/:id/comments", (req, res) => {
             console.log("Not Found!")
             res.status(404).send({ "ID Not Found:": req.params.id });
         } else {
-            console.log(comments)
-            res.send(comments);
+            console.log(comment)
+            res.send(comment);
         }
     }).catch(error => {
         res.send({ "error": error });
