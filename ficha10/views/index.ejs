@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <ul><%data.forEach(function(item,index){%>
+      <li><strong><%=item.firstname%></strong>
+        <%=item.lastname%>, <%=item.age%>,<%=item.profession%></li>
+    <%})%>
+  </ul>
+  </body>
+</html>
