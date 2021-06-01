@@ -1,3 +1,5 @@
+const Users = require("../models/Users");
+
 module.exports = function(app, passport) {
 
     // =====================================
@@ -20,9 +22,11 @@ module.exports = function(app, passport) {
     // redirect to the secure profile section
     // redirect back to the signup page if there is an error
     // allow flash messages 
-    app.post('/login', function(req, res) {
-        res.render('login.ejs',{ message:req.flash("loginMessage")}); // load the index.ejs file
-    });
+    app.post('/login', passport.authenticate("local-login", {
+        successRedirect: "/profile",
+        failureRedirect : "/login",
+        failureFlash: true
+    }));
 
     // =====================================
     // SIGNUP ==============================
@@ -48,14 +52,19 @@ module.exports = function(app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     // get the user out of session and pass to template
-    app.get('/profile', function(req, res) {
-        res.render('profile.ejs',{ message:req.flash("signupMessage")}); // load the profile.ejs file
+    app.get('/profile', isLoggedIn ,function(req, res) {
+        res.render('profile.ejs',{ user:req.user }); // load the profile.ejs file
     });
     // =====================================
     // LOGOUT ==============================
     // =====================================
     // TODO 6 - logout user GET
     // redirect to root
+    app.get('/logout', (req,res)=>{
+        req.logout();
+        res.redirect("/");
+    });
+
 };
 
 // route middleware to make sure a user is logged in

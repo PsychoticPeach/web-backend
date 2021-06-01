@@ -31,7 +31,7 @@ module.exports = function (passport) {
     });
 
     // =========================================================================
-    // TODO 1- LOCAL SIGNUP ============================================================
+    //  1- LOCAL SIGNUP ============================================================
     // =========================================================================
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
@@ -74,6 +74,19 @@ module.exports = function (passport) {
         passwordField: 'password',
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
-        function (req, email, password, done) { // callback with email and password from our form                        
+        function (req, email, password, done) {
+            Users.findOne({
+                where:{
+                    email:email
+                }
+            }).then(result =>{ 
+                if (result.password == password){
+                        return done(null, result);
+                } else {
+                    done(null, false, req.flash("loginMessage","Email already taken."))
+                }
+            }).catch(error =>{
+                done(error,null);
+            }); // callback with email and password from our form                        
         }));
 };
