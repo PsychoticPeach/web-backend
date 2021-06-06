@@ -5,12 +5,12 @@ const UsersModel = require("./models/Users")
 
 const sequelize = new Sequelize("ficha10", "root", "", {
     dialect: "mysql",
-    host:"localhost",
-    pool:{
-        max:10,
-        min:0,
-        acquire:30000,
-        idle:10000
+    host: "localhost",
+    pool: {
+        max: 10,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
     }
 });
 
@@ -23,13 +23,13 @@ sequelize.authenticate()
     })
     .catch(error => {
         console.error("Unable to connect", error);
-});
+    });
 
 sequelize.sync({ force: false })
     .then(() => {
         console.log("tables created!");
     })
 
-module.exports={
+module.exports = {
     Users
 }
