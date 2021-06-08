@@ -23,18 +23,18 @@ require('./routes/index.js')(app, passport); // load our routes and pass in our 
 
 // TODO Add custom routes ======================================================================
 
-var userRouter = require("./routes/users.js");//carregar a rota users para usar em routes/user.js
+var userRouter = require("./routes/users.js"); //carregar a rota users para usar em routes/user.js
 app.use("/users", userRouter);
 
 // express server
-var server = app.listen(8081, function () {
+var server = app.listen(8081, function() {
 
     var host = server.address().address
     var port = server.address().port
     console.log("Example app listening at http://%s:%s", host, port);
 });
 
-function testMiddleware(req,res,next){
+function testMiddleware(req, res, next) {
     console.log("TESTE MIDDLEWARE");
     return next();
 }
