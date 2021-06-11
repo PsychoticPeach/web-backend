@@ -1,8 +1,10 @@
 var jwt = require("jsonwebtoken");
-const User = require("../sequelize").User;
+const User = require("../sequelize").Users;
+
+const config = require("../config.js");
 
 function generateAccessToken(email, password) {
-    return jwt.sign({email, password}, process.env.TOKEN_SECRET, {expiresIn: "18000s"});
+    return jwt.sign({email, password}, config.dbtoken, {expiresIn: "18000s"});
 }
 
 exports.signup = function(req,res){
@@ -50,7 +52,7 @@ exports.login = function(req,res){
             req.session.token = token;
             res.cookie("access_token",token,{
                 expires: new Date(Date.now()+8*3600000)
-            })
+            }).redirect("/profile");
         }
     })
 }
