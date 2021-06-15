@@ -15,7 +15,7 @@ router.get('/signup', function(req, res) {
 });
 
 router.get('/profile', function(req, res) {
-    res.render('profile.ejs', { user: req.session.user }); // load the profile.ejs file
+    res.render('profile.ejs', { user: req.session.user, token: req.session.token }); // load the profile.ejs file
 });
 
 router.get('/logout', (req, res) => {

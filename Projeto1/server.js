@@ -193,7 +193,7 @@ app.get("/product/tags", (req, res) => {
 
 //PARTE B
 //Ex a. FEITO
-app.get("/product/id", (req, res) => {
+app.get("/product/:id", (req, res) => {
     var id = req.query.id
     Product.findOne({
         where: {
