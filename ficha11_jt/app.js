@@ -1,9 +1,11 @@
+const dotenv = require('dotenv');
+dotenv.config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var session = require('express-session');
 var flash = require("connect-flash");
 
 
@@ -16,6 +18,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(session({ secret: 'cat' }));
 app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());

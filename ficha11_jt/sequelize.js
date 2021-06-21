@@ -1,10 +1,11 @@
 //Implement all the models and business logic using sequelize
 
 const Sequelize = require("sequelize");
+const { dbschema, dbuser, dbpass, dbhost } = require("./config");
 const UsersModel = require("./models/Users")
 
-const sequelize = new Sequelize(process.env.DB_SCHEMA, {
-    host:process.env.DB_HOST,
+const sequelize = new Sequelize(dbschema,dbuser, dbpass, {
+    host:dbhost,
     dialect: "mysql",
     pool:{
         max:10,
