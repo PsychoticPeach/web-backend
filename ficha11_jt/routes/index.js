@@ -14,8 +14,8 @@ router.get('/signup', function(req, res) {
     res.render('signup.ejs', { message: req.flash("signupMessage") }); // load the signup.ejs file
 });
 
-router.get('/profile', isLoggedIn, function(req, res) {
-    res.render('profile.ejs', { user: req.user }); // load the profile.ejs file
+router.get('/profile', function(req, res) {
+    res.render('profile.ejs', { user: req.session.user }); // load the profile.ejs file
 });
 
 router.get('/logout', (req, res) => {
